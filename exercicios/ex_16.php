@@ -50,36 +50,39 @@ function contarEspeciais($senha){
     return $contador;
 }
 
-function classificarSenha($senha){
+function nivelSeguranca($senha){
 
-    $pontos = 0;
+    $nivel = 0;
 
     if(strlen($senha) >= 8){
-        $pontos++;
+        $nivel++;
     }
 
     if(contarMaiusculas($senha) > 0){
-        $pontos++;
+        $nivel++;
     }
 
     if(contarMinusculas($senha) > 0){
-        $pontos++;
+        $nivel++;
     }
 
     if(contarNumeros($senha) > 0){
-        $pontos++;
+        $nivel++;
     }
 
     if(contarEspeciais($senha) > 0){
-        $pontos++;
+        $nivel++;
     }
 
-    if($pontos <= 2){
+    if($nivel <= 2){
         return "Fraca";
-    }elseif($pontos == 3){
+
+    }elseif($nivel == 3){
         return "Média";
-    }elseif($pontos == 4){
+
+    }elseif($nivel == 4){
         return "Forte";
+
     }else{
         return "Muito Forte";
     }
@@ -88,19 +91,20 @@ function classificarSenha($senha){
 
 function analisarSenha($senha){
 
-    return [
-        "Maiúsculas" => contarMaiusculas($senha),
-        "Minúsculas" => contarMinusculas($senha),
-        "Números" => contarNumeros($senha),
-        "Especiais" => contarEspeciais($senha),
-        "Tamanho" => strlen($senha),
-        "Nível" => classificarSenha($senha)
-    ];
+        echo "Maiúsculas: ", contarMaiusculas($senha);
+        echo "<br>";
+        echo "Minúsculas: ", contarMinusculas($senha);
+        echo "<br>";
+        echo "Números: ", contarNumeros($senha);
+        echo "<br>";
+        echo "Especiais: ", contarEspeciais($senha);
+        echo "<br>";
+        echo "Tamanho: ", strlen($senha);
+        echo "<br>";
+        echo "Nível: ", nivelSeguranca($senha);
 
 }
 
-$resultado = analisarSenha("Thais123");
-
-print_r($resultado);
+analisarSenha("Thais123");
 
 ?>
