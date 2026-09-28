@@ -43,7 +43,7 @@ function menorPalavra($texto){
 
     foreach($palavras as $palavra){
 
-        if(strlen($palavra) < strlen($menor)){
+        if(strlen($palavra) < strlen($menor) && strlen($palavra) >= 2){
             $menor = $palavra;
         }
 
@@ -54,15 +54,12 @@ function menorPalavra($texto){
 
 function palavrasFrequentes($texto){
 
-    $texto = strtolower(removerEspacos($texto));
-
-    $palavras = explode(" ", $texto);
-
+    $palavras = explode(" ", strtolower(removerEspacos($texto)));
     $contagem = array_count_values($palavras);
 
     arsort($contagem);
 
-    return array_slice($contagem, 0, 5, true);
+    return array_slice(array_keys($contagem), 0, 5);
 
 }
 
@@ -93,94 +90,99 @@ function formatarTexto($texto){
 
 function processarTexto($texto){
 
-    return [
-
-        "Caracteres" => contarCaracteres($texto),
-        "Palavras" => contarPalavras($texto),
-        "Frases" => contarFrases($texto),
-        "Maior Palavra" => maiorPalavra($texto),
-        "Menor Palavra" => menorPalavra($texto),
-        "Palavras Repetidas" => palavrasRepetidas($texto),
-        "Cinco Mais Frequentes" => palavrasFrequentes($texto),
-        "Texto Sem Espaços Duplicados" => removerEspacos($texto),
-        "Texto Formatado" => formatarTexto($texto)
-
-    ];
+    echo "Caracteres: ", contarCaracteres($texto);
+    echo "<br>";
+    echo "Palavras: ", contarPalavras($texto);
+    echo "<br>";
+    echo "Frases: ", contarFrases($texto);
+    echo "<br>";
+    echo "Maior palavra: ", maiorPalavra($texto);
+    echo "<br>";
+    echo "Menor palavra: ", menorPalavra($texto);
+    echo "<br>";
+    echo "Palavras repetidas: ", palavrasRepetidas($texto);
+    echo "<br>";
+    echo "Cinco mais frequentes: ";
+        foreach(palavrasFrequentes($texto) as $palavra){
+            echo $palavra . " ";
+        }
+    echo "<br><br>";
+    echo "Texto sem espaços duplicados: <br>", removerEspacos($texto);
+    echo "<br><br>";
+    echo "Texto Formatado: <br>", formatarTexto($texto);
 
 }
 
-$texto = "Do lado de cá
-A vida não é boa
-Problemas não param de surgir
+$texto = "Do lado de cá.
+A vida não é boa.
+Problemas não param de surgir.
 
-Do lado de cá
-Vagamos sem rumo
-Sem leito
+Do lado de cá.
+Vagamos sem rumo.
+Sem leito.
 Sem nada!
-Pra seguir
+Pra seguir.
 
-Garota sua alma resguarda
-O que falta na gente
-E não larga o que tem que ser seu
+Garota sua alma resguarda.
+O que falta na gente.
+E não larga o que tem que ser seu.
 
-Brilhante conforme no escuro
-Seu rosto tão puro
-Me lembra algo que se perdeu
+Brilhante conforme no escuro.
+Seu rosto tão puro.
+Me lembra algo que se perdeu.
 
-Ó garota
+Ó garota.
 O que se esconde na sua alma?
-Ó garota
-Seu olhar que devasta a escuridão pra salvar
+Ó garota.
+Seu olhar que devasta a escuridão pra salvar.
 
-O que se perdeu
-Se perdeu
-Do outro lado
-Do outro lado
+O que se perdeu.
+Se perdeu.
+Do outro lado.
+Do outro lado.
 
-Me mostra a visão que eu nunca terei
-Do outro lado
-Do outro lado
+Me mostra a visão que eu nunca terei.
+Do outro lado.
+Do outro lado.
 
-(Mostra a visão que eu nunca terei)
-(Do outro lado)
-(Do outro lado)
+(Mostra a visão que eu nunca terei.)
+(Do outro lado.)
+(Do outro lado.)
 
-E não é como se fosse tão fácil assim
-Separar
-Um lado bom, um lado ruim
+E não é como se fosse tão fácil assim.
+Separar.
+Um lado bom, um lado ruim.
 O que há em você?
 O que falta em mim?
 
-Por partes
-Não metades
-E não é tarde
-Pra acabar com toda essa ambição
+Por partes.
+Não metades.
+E não é tarde.
+Pra acabar com toda essa ambição.
 
-Com o coração surge a alma
-E com o corpo vem a fome
-Fogo cruzado e o que há
-Apenas provas de que ambos se corrompem
+Com o coração surge a alma.
+E com o corpo vem a fome.
+Fogo cruzado e o que há.
+Apenas provas de que ambos se corrompem.
 
-E poderia destruir
-Só que não vai conseguir
-O olhar que enxerga bondade sobre o homem
+E poderia destruir.
+Só que não vai conseguir.
+O olhar que enxerga bondade sobre o homem.
 
-Ó garota
+Ó garota.
 O que se esconde na sua alma?
-Ó garota
-Seu olhar que devasta a escuridão pra salvar
+Ó garota.
+Seu olhar que devasta a escuridão pra salvar.
 
-O que se perdeu
-Se perdeu
-Do outro lado
-Do outro lado
+O que se perdeu.
+Se perdeu.
+Do outro lado.
+Do outro lado.
 
-Me mostra a visão que eu nunca terei
-Do outro lado
-Do outro lado";
+Me mostra a visão que eu nunca terei.
+Do outro lado.
+Do outro lado.";
 
-$resultado = processarTexto($texto);
-
-print_r($resultado);
+processarTexto($texto);
 
 ?>
