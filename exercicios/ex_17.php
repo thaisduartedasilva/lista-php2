@@ -18,70 +18,52 @@ function contarFrases($texto){
            substr_count($texto, "?");
 }
 
-function maiorPalavra($texto){
+function maiorMenorPalavra($texto){
 
     $palavras = explode(" ", removerEspacos($texto));
 
     $maior = $palavras[0];
-
-    foreach($palavras as $palavra){
-
-        if(strlen($palavra) > strlen($maior)){
-            $maior = $palavra;
-        }
-
-    }
-
-    return $maior;
-}
-
-function menorPalavra($texto){
-
-    $palavras = explode(" ", removerEspacos($texto));
-
     $menor = $palavras[0];
 
     foreach($palavras as $palavra){
-
-        if(strlen($palavra) < strlen($menor) && strlen($palavra) >= 2){
+        if(strlen($palavra) > strlen($maior)){
+            $maior = $palavra;
+        }
+        if(strlen($palavra) < strlen($menor)){
             $menor = $palavra;
         }
-
     }
-
-    return $menor;
-}
-
-function palavrasFrequentes($texto){
-
-    $palavras = explode(" ", strtolower(removerEspacos($texto)));
-    $contagem = array_count_values($palavras);
-
-    arsort($contagem);
-
-    return array_slice(array_keys($contagem), 0, 5);
-
+    return [
+        "maior" => $maior,
+        "menor" =>$menor
+    ];
 }
 
 function palavrasRepetidas($texto){
 
-    $texto = strtolower(removerEspacos($texto));
-
-    $palavras = explode(" ", $texto);
-
+    $palavras = explode(" ", strtolower(removerEspacos($texto)));
     $contagem = array_count_values($palavras);
 
     $repetidas = 0;
 
-    foreach($contagem as $valor){
-
-        if($valor > 1){
+    foreach($contagem as $quantidade){
+        if($quantidade > 1){
             $repetidas++;
         }
-
     }
 
     return $repetidas;
+
+}
+
+function palavrasFrequentes($texto){
+
+    $palavras = explode (" ", strtolower(removerEspacos($texto)));
+
+    $contagem = array_count_values($palavras);
+
+    arsort($contagem);
+    return array_slice($contagem, 0, 5, true);
 }
 
 function formatarTexto($texto){
@@ -90,27 +72,19 @@ function formatarTexto($texto){
 
 function processarTexto($texto){
 
-    echo "Caracteres: ", contarCaracteres($texto);
-    echo "<br>";
-    echo "Palavras: ", contarPalavras($texto);
-    echo "<br>";
-    echo "Frases: ", contarFrases($texto);
-    echo "<br>";
-    echo "Maior palavra: ", maiorPalavra($texto);
-    echo "<br>";
-    echo "Menor palavra: ", menorPalavra($texto);
-    echo "<br>";
-    echo "Palavras repetidas: ", palavrasRepetidas($texto);
-    echo "<br>";
-    echo "Cinco mais frequentes: ";
-        foreach(palavrasFrequentes($texto) as $palavra){
-            echo $palavra . " ";
-        }
-    echo "<br><br>";
-    echo "Texto sem espaços duplicados: <br>", removerEspacos($texto);
-    echo "<br><br>";
-    echo "Texto Formatado: <br>", formatarTexto($texto);
-
+        $palavras = maiorMenorPalavra($texto);
+    
+ return[
+    "Caracteres" => contarCaracteres($texto),
+    "Palavras" => contarPalavras($texto),
+    "Frases" => contarFrases($texto),
+    "Maior palavra" => $palavras["maior"],
+    "Menor palavra" => $palavras["menor"],
+    "Palavras repetidas" => palavrasRepetidas($texto),
+    "Cinco mais frequentes" => palavrasFrequentes($texto),
+    "Texto sem espaços" => removerEspacos($texto),
+    "Texto formatado" => formatarTexto($texto)
+ ];
 }
 
 $texto = "Do lado de cá.
@@ -183,6 +157,21 @@ Me mostra a visão que eu nunca terei.
 Do outro lado.
 Do outro lado.";
 
-processarTexto($texto);
+$resultado = processarTexto($texto);
+
+echo "Caracteres: " . $resultado["Caracteres"] . "<br>";
+echo "Palavras: " . $resultado["Palavras"]. "<br>";
+echo "Frases: " . $resultado["Frases"]. "<br>";
+echo "Maior palavra: " . $resultado["Maior palavra"]. "<br>";
+echo "Menor Palavra: " . $resultado["Menor palavra"]. "<br>";
+echo "Palavras repetidas: " . $resultado["Palavras repetidas"]. "<br>";
+
+echo "Palavras mais fraquentes: ";
+foreach($resultado["Cinco mais frequentes"] as $palavra => $quantidade){
+    echo $palavra . " - " . $quantidade . "<br>"; 
+}
+
+echo "Texto sem espaços: <br>" . $resultado["Texto sem espaços"]. "<br><br>";
+echo "Texto formatado: <br>". $resultado["Texto formatado"] . "<br>"; 
 
 ?>

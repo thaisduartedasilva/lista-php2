@@ -89,22 +89,27 @@ function nivelSeguranca($senha){
 
 }
 
-function analisarSenha($senha){
+function analisarSenha($senha){ 
 
-        echo "Maiúsculas: ", contarMaiusculas($senha);
-        echo "<br>";
-        echo "Minúsculas: ", contarMinusculas($senha);
-        echo "<br>";
-        echo "Números: ", contarNumeros($senha);
-        echo "<br>";
-        echo "Especiais: ", contarEspeciais($senha);
-        echo "<br>";
-        echo "Tamanho: ", strlen($senha);
-        echo "<br>";
-        echo "Nível: ", nivelSeguranca($senha);
+    return [
+        "Maiúsculas" => contarMaiusculas($senha),
+        "Minúsculas" => contarMinusculas($senha),
+        "Números" => contarNumeros($senha),
+        "Especiais" => contarEspeciais($senha),
+        "Tamanho" => strlen($senha),
+        "Nível" => nivelSeguranca($senha)
+    ];
 
 }
 
-analisarSenha("Thais123");
+$resultado = analisarSenha("Thais123");
+
+echo "Maiúsculas: " . $resultado["Maiúsculas"] . "<br>";
+echo "Minúsculas: " . $resultado["Minúsculas"] . "<br>";
+echo "Números: " . $resultado["Números"] . "<br>";
+echo "Especiais: " . $resultado["Especiais"] . "<br>";
+echo "Tamanho: " . $resultado["Tamanho"] . "<br>";
+echo "Nível: " . $resultado["Nível"];
+
 
 ?>
